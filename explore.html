@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zovari - Explore</title>
+  <link rel="icon" href="images/zovari-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ===== Left Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="zovari-logo.png" alt="Zovari logo" />
+        <div class="sidebar-brand-text">
+          <h1>Zovari</h1>
+          <span>Premium Social</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">
+          <span class="material-symbols-outlined">home</span><span>Home</span>
+        </a>
+        <a href="explore.html" class="sidebar-link active">
+          <span class="material-symbols-outlined icon-filled">explore</span><span>Explore</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">add_box</span><span>Create</span>
+        </a>
+        <a href="profile.html" class="sidebar-link">
+          <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">settings</span><span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-primary btn-block"><span>Post</span></button>
+        <a href="login.html" class="sidebar-link">
+          <span class="material-symbols-outlined">logout</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ===== Main ===== -->
+    <main class="main-col">
+
+      <div class="explore-top">
+        <div class="search-box" style="max-width:none;">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" placeholder="Search Zovari..." />
+        </div>
+        <div class="explore-tabs">
+          <button class="tab-chip active">For You</button>
+          <button class="tab-chip">Trending</button>
+          <button class="tab-chip">News</button>
+          <button class="tab-chip">Architecture</button>
+          <button class="tab-chip">Tech</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Top Creators</h2>
+      <div class="creator-grid">
+        <div class="creator-card">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=200&h=200&q=80" alt="Alex River" />
+          <div class="creator-name">Alex River</div>
+          <div class="creator-field">Design</div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+        <div class="creator-card">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=200&h=200&q=80" alt="Sam Chen" />
+          <div class="creator-name">Sam Chen</div>
+          <div class="creator-field">Architecture</div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+        <div class="creator-card">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=200&h=200&q=80" alt="Jordan Lee" />
+          <div class="creator-name">Jordan Lee</div>
+          <div class="creator-field">Tech</div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+        <div class="creator-card">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=200&h=200&q=80" alt="Casey Smith" />
+          <div class="creator-name">Casey Smith</div>
+          <div class="creator-field">Visual Arts</div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Popular Today</h2>
+      <div class="discover-grid">
+        <div class="discover-item">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Minimalist Concrete Pavilion" />
+          <div class="discover-caption">
+            <div class="discover-title">Minimalist Concrete Pavilion</div>
+            <div class="discover-author">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sam Chen" />
+              Sam Chen
+            </div>
+          </div>
+        </div>
+        <div class="discover-item">
+          <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&w=600&q=80" alt="Flow State abstract art" />
+          <div class="discover-caption">
+            <div class="discover-title">Flow State</div>
+            <div class="discover-author">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Alex River" />
+              Alex River
+            </div>
+          </div>
+        </div>
+        <div class="discover-item">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Future tech device" />
+          <div class="discover-caption">
+            <div class="discover-title">Future Tech Concepts</div>
+            <div class="discover-author">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Jordan Lee" />
+              Jordan Lee
+            </div>
+          </div>
+        </div>
+        <div class="discover-item">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80" alt="Nordic interior living room" />
+          <div class="discover-caption">
+            <div class="discover-title">Nordic Interior</div>
+            <div class="discover-author">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Emma Design" />
+              Emma Design
+            </div>
+          </div>
+        </div>
+        <div class="discover-item">
+          <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=600&q=80" alt="Gallery hallway" />
+          <div class="discover-caption">
+            <div class="discover-title">Light & Concrete</div>
+            <div class="discover-author">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Elena Rodriguez" />
+              Elena Rodriguez
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===== Right Rail ===== -->
+    <aside class="right-rail">
+      <div class="rail-card">
+        <h3>Trending Topics</h3>
+        <div class="trend-item">
+          <div class="trend-meta"><span>1 · Technology</span></div>
+          <div class="trend-title">#AIInnovation</div>
+          <div class="trend-meta">12.5k Posts</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-meta"><span>2 · Design</span></div>
+          <div class="trend-title">Glassmorphism</div>
+          <div class="trend-meta">8,432 Posts</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-meta"><span>3 · Architecture</span></div>
+          <div class="trend-title">Sustainable Living</div>
+          <div class="trend-meta">5,100 Posts</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-meta"><span>4 · News</span></div>
+          <div class="trend-title">Global Markets</div>
+          <div class="trend-meta">3,200 Posts</div>
+        </div>
+      </div>
+
+      <div class="rail-card upgrade-card">
+        <h3>Subscribe to Premium</h3>
+        <p>Get exclusive access to top creators and ad-free browsing.</p>
+        <button class="btn btn-primary btn-block">Upgrade</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav">
+    <a href="index.html"><span class="material-symbols-outlined">home</span></a>
+    <a href="explore.html" class="active"><span class="material-symbols-outlined icon-filled">explore</span></a>
+    <a href="#"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="#"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
+  </nav>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
