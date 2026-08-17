@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zovari - Home</title>
+  <link rel="icon" href="images/zovari-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ===== Left Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="zovari-logo.png" alt="Zovari logo" />
+        <div class="sidebar-brand-text">
+          <h1>Zovari</h1>
+          <span>Premium Social</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link active">
+          <span class="material-symbols-outlined icon-filled">home</span><span>Home</span>
+        </a>
+        <a href="explore.html" class="sidebar-link">
+          <span class="material-symbols-outlined">explore</span><span>Explore</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">add_box</span><span>Create</span>
+        </a>
+        <a href="profile.html" class="sidebar-link">
+          <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="material-symbols-outlined">settings</span><span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-primary btn-block"><span>Post</span></button>
+        <a href="login.html" class="sidebar-link">
+          <span class="material-symbols-outlined">logout</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ===== Main Feed ===== -->
+    <main class="main-col">
+
+      <!-- Composer -->
+      <div class="composer">
+        <div class="composer-top">
+          <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Your avatar" />
+          <textarea rows="1" placeholder="What's on your mind?" data-composer-input></textarea>
+        </div>
+        <div class="composer-bottom">
+          <div class="composer-actions">
+            <button title="Add image"><span class="material-symbols-outlined">image</span></button>
+            <button title="Add link"><span class="material-symbols-outlined">link</span></button>
+            <button title="Add emoji"><span class="material-symbols-outlined">mood</span></button>
+          </div>
+          <button class="btn btn-primary" data-composer-post>Post</button>
+        </div>
+      </div>
+
+      <!-- Feed -->
+      <div data-feed>
+
+        <article class="post-card">
+          <div class="post-header">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Elena Rodriguez" />
+            <div class="post-author">
+              <div class="post-author-name">Elena Rodriguez</div>
+              <div class="post-author-meta">Architect @ Studio N. · 2h</div>
+            </div>
+            <button class="post-more"><span class="material-symbols-outlined">more_horiz</span></button>
+          </div>
+          <p class="post-text">Exploring spatial tension in our latest gallery concept. The interplay of raw concrete and filtered natural light creates a dialogue we're really excited about. #architecture #design</p>
+          <img class="post-media" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1000&q=80" alt="Gallery interior" />
+          <div class="post-footer">
+            <div class="post-stats">
+              <button class="post-stat-btn like-btn">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="like-count">245</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span>18</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+            </div>
+            <button class="post-save"><span class="material-symbols-outlined">bookmark</span></button>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-header">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Alex Woods" />
+            <div class="post-author">
+              <div class="post-author-name">Alex Woods</div>
+              <div class="post-author-meta">Strategy Lead · 4h</div>
+            </div>
+            <button class="post-more"><span class="material-symbols-outlined">more_horiz</span></button>
+          </div>
+          <p class="post-text">The difference between good design and great design is often invisible. It's the restraint to remove elements until only the essential ones remain.</p>
+          <div class="post-footer">
+            <div class="post-stats">
+              <button class="post-stat-btn like-btn">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="like-count">132</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span>9</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+            </div>
+            <button class="post-save"><span class="material-symbols-outlined">bookmark</span></button>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-header">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sarah Jenkins" />
+            <div class="post-author">
+              <div class="post-author-name">Sarah Jenkins</div>
+              <div class="post-author-meta">Product Designer · 6h</div>
+            </div>
+            <button class="post-more"><span class="material-symbols-outlined">more_horiz</span></button>
+          </div>
+          <p class="post-text">New case study is live: how we cut onboarding drop-off by 30% with three small copy changes. Link in comments.</p>
+          <img class="post-media" src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?auto=format&fit=crop&w=1000&q=80" alt="Laptop with dashboard" />
+          <div class="post-footer">
+            <div class="post-stats">
+              <button class="post-stat-btn like-btn">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="like-count">301</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span>27</span>
+              </button>
+              <button class="post-stat-btn">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+            </div>
+            <button class="post-save"><span class="material-symbols-outlined">bookmark</span></button>
+          </div>
+        </article>
+
+      </div>
+    </main>
+
+    <!-- ===== Right Rail ===== -->
+    <aside class="right-rail">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." />
+      </div>
+
+      <div class="rail-card">
+        <h3>Trending Now</h3>
+        <div class="trend-item">
+          <div class="trend-meta"><span>Technology · Trending</span> <span class="material-symbols-outlined" style="font-size:16px">trending_up</span></div>
+          <div class="trend-title">Spatial Computing Design</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-meta"><span>Architecture · Trending</span> <span class="material-symbols-outlined" style="font-size:16px">trending_up</span></div>
+          <div class="trend-title">Sustainable Materials</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-meta"><span>Business · Trending</span> <span class="material-symbols-outlined" style="font-size:16px">trending_up</span></div>
+          <div class="trend-title">Remote Culture Shift</div>
+        </div>
+      </div>
+
+      <div class="rail-card">
+        <h3>Who to follow</h3>
+        <div class="suggest-item">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sarah Jenkins" />
+          <div class="suggest-info">
+            <div class="suggest-name">Sarah Jenkins</div>
+            <div class="suggest-handle">@sjenkins</div>
+          </div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+        <div class="suggest-item">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="David Chen" />
+          <div class="suggest-info">
+            <div class="suggest-name">David Chen</div>
+            <div class="suggest-handle">@chen_design</div>
+          </div>
+          <button class="btn btn-secondary btn-pill btn-follow">Follow</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav">
+    <a href="index.html" class="active"><span class="material-symbols-outlined icon-filled">home</span></a>
+    <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="#"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="#"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
+  </nav>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

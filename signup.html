@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zovari - Create Account</title>
+  <link rel="icon" href="images/zovari-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="auth-shell">
+
+    <div class="auth-visual">
+      <div class="auth-visual-brand">
+        <img src="zovari-logo.png" alt="Zovari logo" />
+        <span>Zovari</span>
+      </div>
+      <div class="auth-visual-copy">
+        <h2>Your Circle Starts Here.</h2>
+        <p>Create an account and start sharing, following, and connecting with a premium community.</p>
+      </div>
+    </div>
+
+    <div class="auth-form-side">
+      <form class="auth-form" id="signup-form" onsubmit="handleSignupSubmit(event)">
+        <h2>Create Account</h2>
+        <p>It only takes a minute to get started.</p>
+
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <div class="input-wrap">
+            <span class="material-symbols-outlined">person</span>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="input-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <input type="email" id="email" placeholder="name@example.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="material-symbols-outlined">lock</span>
+            <input type="password" id="password" placeholder="At least 6 characters" data-password-input required />
+            <button type="button" data-password-toggle aria-label="Toggle password visibility">
+              <span class="material-symbols-outlined">visibility_off</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="form-error" id="signup-error"></p>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Create Account <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+
+        <div class="divider">Or continue with</div>
+
+        <div class="oauth-row">
+          <button type="button" class="btn btn-outline">Google</button>
+          <button type="button" class="btn btn-outline">Apple</button>
+        </div>
+
+        <p class="auth-footer-text">
+          Already have an account? <a href="login.html">Sign in</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
