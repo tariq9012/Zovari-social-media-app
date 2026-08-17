@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zovari - Notifications</title>
+  <link rel="icon" href="zovari-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ===== Left Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="zovari-logo.png" alt="Zovari logo" />
+        <div class="sidebar-brand-text">
+          <h1>Zovari</h1>
+          <span>Premium Social</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">
+          <span class="material-symbols-outlined">home</span><span>Home</span>
+        </a>
+        <a href="explore.html" class="sidebar-link">
+          <span class="material-symbols-outlined">explore</span><span>Explore</span>
+        </a>
+        <a href="notifications.html" class="sidebar-link active">
+          <span class="material-symbols-outlined icon-filled">notifications</span><span>Notifications</span>
+        </a>
+        <a href="messages.html" class="sidebar-link">
+          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+        </a>
+        <a href="index.html#composer" class="sidebar-link">
+          <span class="material-symbols-outlined">add_box</span><span>Create</span>
+        </a>
+        <a href="profile.html" class="sidebar-link">
+          <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <span class="material-symbols-outlined">settings</span><span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-primary btn-block"><span>Post</span></button>
+        <a href="login.html" class="sidebar-link">
+          <span class="material-symbols-outlined">logout</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ===== Main ===== -->
+    <main class="main-col">
+      <h2 class="section-title" style="margin-top:0;">Notifications</h2>
+
+      <div class="notif-list">
+        <div class="notif-item unread">
+          <div class="notif-icon like"><span class="material-symbols-outlined icon-filled">favorite</span></div>
+          <div class="notif-body">
+            <div class="notif-text"><b>Sarah Jenkins</b> liked your post "Exploring spatial tension..."</div>
+            <div class="notif-time">10 minutes ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item unread">
+          <div class="notif-icon follow"><span class="material-symbols-outlined">person_add</span></div>
+          <div class="notif-body">
+            <div class="notif-text"><b>David Chen</b> started following you</div>
+            <div class="notif-time">45 minutes ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-icon comment"><span class="material-symbols-outlined">chat_bubble</span></div>
+          <div class="notif-body">
+            <div class="notif-text"><b>Elena Rodriguez</b> commented: "This concrete-and-glass contrast is stunning..."</div>
+            <div class="notif-time">1 hour ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <img class="notif-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Casey Smith" />
+          <div class="notif-body">
+            <div class="notif-text"><b>Casey Smith</b> mentioned you in a comment</div>
+            <div class="notif-time">3 hours ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-icon like"><span class="material-symbols-outlined icon-filled">favorite</span></div>
+          <div class="notif-body">
+            <div class="notif-text"><b>Alex Woods</b> and <b>12 others</b> liked your post</div>
+            <div class="notif-time">6 hours ago</div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-icon follow"><span class="material-symbols-outlined">person_add</span></div>
+          <div class="notif-body">
+            <div class="notif-text"><b>Jordan Lee</b> started following you</div>
+            <div class="notif-time">1 day ago</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===== Right Rail ===== -->
+    <aside class="right-rail">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." />
+      </div>
+      <div class="rail-card">
+        <h3>Notification settings</h3>
+        <p style="font-size:13px; color:var(--color-text-secondary);">Kaunsi notifications chahiye, wo <a href="settings.html" style="color:var(--color-primary); font-weight:600;">Settings</a> me control ki ja sakti hain.</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav">
+    <a href="index.html"><span class="material-symbols-outlined">home</span></a>
+    <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="notifications.html" class="active"><span class="material-symbols-outlined icon-filled">notifications</span></a>
+    <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>

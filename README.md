@@ -4,19 +4,21 @@ Yeh **Task 2: Social Media Platform** ka frontend hai. Design Stitch se banaya g
 
 ## Folder Structure
 
+Sab files root me hain (bilkul Cleaning-Website repo jaisa — koi subfolder nahi):
+
 ```
-zovari/
-├── index.html      → Home feed (site kholte hi yeh page aata hai — composer + posts + trending + who to follow)
-├── login.html        → Login / Sign in page
+Zovari-social-media-app/
+├── index.html          → Home feed (site kholte hi yeh page aata hai)
+├── login.html          → Login / Sign in page
 ├── signup.html         → Sign up page
-├── explore.html          → Explore / Discover page (top creators + popular grid)
-├── profile.html            → User profile page (cover, bio, tabs: Posts/Media/Likes)
-├── css/
-│   └── style.css              → Sara design system + responsive CSS ek hi file me
-├── js/
-│   └── script.js                 → Like, Follow, Tabs, Password toggle, Composer logic
-├── images/
-│   └── zovari-logo.png            → Logo
+├── explore.html        → Explore / Discover page (top creators + popular grid)
+├── profile.html        → User profile page (cover, bio, tabs: Posts/Media/Likes)
+├── notifications.html  → Notifications page (likes, follows, comments, mentions)
+├── messages.html       → Messages / DM page (conversation list + chat panel)
+├── settings.html        → Account settings (profile info, privacy, notification toggles)
+├── style.css            → Sara design system + responsive CSS ek hi file me
+├── script.js             → Poori interactivity (neeche list hai)
+├── zovari-logo.png        → Logo
 └── README.md
 ```
 
@@ -24,12 +26,18 @@ zovari/
 
 ## Abhi kya kaam kar raha hai (Frontend-only, no backend yet)
 
-- Like button click karne se count update hota hai aur heart fill ho jata hai.
-- Follow button click karne se "Follow" → "Following" toggle hota hai.
-- Composer me post likh kar "Post" dabao to naya card feed ke top pe add ho jata hai.
-- Profile page pe Posts / Media / Likes tabs switch hoti hain.
-- Explore page pe filter chips (For You / Trending...) select ho sakti hain.
-- Login/Signup forms abhi sirf front-end validation karte hain, phir seedha `home.html` pe le jate hain.
+- **Like** button click karne se count update hota hai aur heart fill ho jata hai.
+- **Follow** button click karne se "Follow" → "Following" toggle hota hai.
+- **Comments**: har post ke comment icon pe click karne se comments section khulta hai — pehle se maujood comments dikhte hain aur naya comment likh kar bhej bhi sakte ho (Enter ya send button se).
+- **Composer**: post likh kar "Post" dabao to naya card feed ke top pe add ho jata hai (comments ke sath).
+- **Search**: home feed ke search box me kuch likho to posts (author/text ke mutabiq) filter ho jati hain.
+- Profile page pe **Posts / Media / Likes** tabs switch hoti hain.
+- Explore page pe **filter chips** (For You / Trending...) select ho sakti hain.
+- **Notifications page**: likes, follows, comments, mentions ki list — unread wali highlight hoti hain.
+- **Messages page**: left me conversations list, click karne se chat panel update hota hai, message type karke bhej bhi sakte ho.
+- **Settings page**: profile info, privacy aur notification toggles — "Save changes" pe confirmation toast dikhta hai.
+- **Create** button (sidebar/mobile-nav) kisi bhi page se click karo to `index.html` pe le jaake seedha composer pe focus kar deta hai.
+- Login/Signup forms abhi sirf front-end validation karte hain, phir seedha `index.html` pe le jate hain.
 - Mobile pe sidebar chup jati hai aur neeche bottom nav bar aa jati hai.
 
 ## Backend lagana baaki hai (Task requirement ke mutabiq)

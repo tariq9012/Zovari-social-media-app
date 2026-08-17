@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zovari - Messages</title>
+  <link rel="icon" href="zovari-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-shell no-rail">
+
+    <!-- ===== Left Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="zovari-logo.png" alt="Zovari logo" />
+        <div class="sidebar-brand-text">
+          <h1>Zovari</h1>
+          <span>Premium Social</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">
+          <span class="material-symbols-outlined">home</span><span>Home</span>
+        </a>
+        <a href="explore.html" class="sidebar-link">
+          <span class="material-symbols-outlined">explore</span><span>Explore</span>
+        </a>
+        <a href="notifications.html" class="sidebar-link">
+          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+        </a>
+        <a href="messages.html" class="sidebar-link active">
+          <span class="material-symbols-outlined icon-filled">mail</span><span>Messages</span>
+        </a>
+        <a href="index.html#composer" class="sidebar-link">
+          <span class="material-symbols-outlined">add_box</span><span>Create</span>
+        </a>
+        <a href="profile.html" class="sidebar-link">
+          <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <span class="material-symbols-outlined">settings</span><span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-primary btn-block"><span>Post</span></button>
+        <a href="login.html" class="sidebar-link">
+          <span class="material-symbols-outlined">logout</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ===== Main ===== -->
+    <main class="main-col" style="border-right:none;">
+      <div class="messages-shell">
+
+        <div class="conv-list">
+          <h3>Messages</h3>
+
+          <div class="conv-item active">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sarah Jenkins" />
+            <div>
+              <div class="conv-name">Sarah Jenkins</div>
+              <div class="conv-preview">Hey! Just saw your latest post, looks amazing.</div>
+            </div>
+          </div>
+
+          <div class="conv-item">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="David Chen" />
+            <div>
+              <div class="conv-name">David Chen</div>
+              <div class="conv-preview">Let's collab on the next case study.</div>
+            </div>
+          </div>
+
+          <div class="conv-item">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Elena Rodriguez" />
+            <div>
+              <div class="conv-name">Elena Rodriguez</div>
+              <div class="conv-preview">Sending the gallery photos tonight.</div>
+            </div>
+          </div>
+
+          <div class="conv-item">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Casey Smith" />
+            <div>
+              <div class="conv-name">Casey Smith</div>
+              <div class="conv-preview">Thanks for the feedback 🙌</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-panel">
+          <div class="chat-header">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sarah Jenkins" />
+            <div class="conv-name">Sarah Jenkins</div>
+          </div>
+
+          <div class="chat-messages">
+            <div class="chat-bubble theirs">Hey! Just saw your latest post, looks amazing.</div>
+            <div class="chat-bubble mine">Thank you! Took a while to get the lighting right.</div>
+            <div class="chat-bubble theirs">Worth it though, the result is great.</div>
+          </div>
+
+          <div class="chat-input-row">
+            <input type="text" placeholder="Type a message..." data-chat-input />
+            <button data-chat-send><span class="material-symbols-outlined">send</span></button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav">
+    <a href="index.html"><span class="material-symbols-outlined">home</span></a>
+    <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
