@@ -13,13 +13,44 @@ document.addEventListener("DOMContentLoaded", () => {
   initProfileTabs();
   initExploreTabs();
   initComposer();
+  initComments();
+  initFeedSearch();
+  initSettingsToggles();
+  initMessages();
+  initComposerFocus();
 });
+
+/* ---------- Focus the composer when "Create" is clicked or page opens with #composer ---------- */
+function initComposerFocus() {
+  const composer = document.getElementById("composer");
+  if (!composer) return; // sirf home page pe composer hota hai
+
+  const focusComposer = () => {
+    composer.scrollIntoView({ behavior: "smooth", block: "center" });
+    composer.querySelector("[data-composer-input]").focus();
+  };
+
+  document.querySelectorAll("[data-focus-composer]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      focusComposer();
+    });
+  });
+
+  // Agar koi doosre page se "index.html#composer" link se aaya hai
+  if (window.location.hash === "#composer") {
+    setTimeout(focusComposer, 200);
+  }
+}
 
 /* ---------- Like button ---------- */
 function initLikeButtons() {
   const likeButtons = document.querySelectorAll(".like-btn");
 
   likeButtons.forEach((btn) => {
+    if (btn.dataset.bound) return; // dobara listener na lagay
+    btn.dataset.bound = "true";
+
     btn.addEventListener("click", () => {
       const countEl = btn.querySelector(".like-count");
       const isLiked = btn.classList.toggle("liked");
@@ -39,6 +70,9 @@ function initFollowButtons() {
   const followButtons = document.querySelectorAll(".btn-follow");
 
   followButtons.forEach((btn) => {
+    if (btn.dataset.bound) return; // dobara listener na lagay
+    btn.dataset.bound = "true";
+
     btn.addEventListener("click", () => {
       const following = btn.classList.toggle("following");
       btn.textContent = following ? "Following" : "Follow";
@@ -101,6 +135,163 @@ function initExploreTabs() {
   });
 }
 
+/* ---------- Comments (view + add) ---------- */
+function initComments() {
+  // Open/close a post's comment section when the comment-bubble icon is clicked
+  document.querySelectorAll(".comment-toggle").forEach((btn) => {
+    // avoid double-binding if called again after a new post is injected
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = "true";
+
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".post-card");
+      const section = card.querySelector(".comments-section");
+      const isOpen = section.classList.toggle("open");
+      btn.classList.toggle("active", isOpen);
+      if (isOpen) {
+        const input = section.querySelector(".comment-input-wrap input");
+        input.focus();
+      }
+    });
+  });
+
+  // Submit a new comment (Enter key or send button)
+  document.querySelectorAll(".comment-form").forEach((form) => {
+    if (form.dataset.bound) return;
+    form.dataset.bound = "true";
+
+    const input = form.querySelector("input");
+    const sendBtn = form.querySelector("[data-comment-send]");
+
+    const submit = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      addComment(form, text);
+      input.value = "";
+    };
+
+    sendBtn.addEventListener("click", submit);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") submit();
+    });
+  });
+}
+
+function addComment(form, text) {
+  const card = form.closest(".post-card");
+  const list = card.querySelector(".comment-list");
+  const countEl = card.querySelector(".comment-count");
+
+  const item = document.createElement("div");
+  item.className = "comment-item";
+  item.innerHTML = `
+    <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="You" />
+    <div class="comment-bubble">
+      <div class="comment-author">You</div>
+      <div class="comment-text">${escapeHtml(text)}</div>
+      <div class="comment-meta"><span>Just now</span> <button type="button">Like</button> <button type="button">Reply</button></div>
+    </div>
+  `;
+  list.appendChild(item);
+
+  if (countEl) {
+    const current = parseInt(countEl.textContent.replace(/,/g, ""), 10) || 0;
+    countEl.textContent = current + 1;
+  }
+
+  // TODO: backend lagne ke baad:
+  // fetch(`/api/posts/${postId}/comments`, { method: "POST", body: JSON.stringify({ text }) })
+}
+
+/* ---------- Feed search (home.html search box filters posts) ---------- */
+function initFeedSearch() {
+  const searchInput = document.querySelector("[data-feed-search]");
+  if (!searchInput) return;
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    const posts = document.querySelectorAll("[data-feed] .post-card");
+
+    posts.forEach((post) => {
+      const author = post.querySelector(".post-author-name")?.textContent.toLowerCase() || "";
+      const text = post.querySelector(".post-text")?.textContent.toLowerCase() || "";
+      const matches = !query || author.includes(query) || text.includes(query);
+      post.style.display = matches ? "" : "none";
+    });
+  });
+}
+
+/* ---------- Settings toggles + save button ---------- */
+function initSettingsToggles() {
+  const saveBtn = document.querySelector("[data-settings-save]");
+  if (!saveBtn) return;
+
+  saveBtn.addEventListener("click", () => {
+    // TODO: backend lagne ke baad:
+    // fetch("/api/users/me/settings", { method: "PATCH", body: JSON.stringify({...}) })
+    showToast("Settings saved");
+  });
+}
+
+function showToast(message) {
+  let toast = document.querySelector(".toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+/* ---------- Messages page (conversation switching + send demo reply) ---------- */
+function initMessages() {
+  const convItems = document.querySelectorAll(".conv-item");
+  if (!convItems.length) return;
+
+  convItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      convItems.forEach((c) => c.classList.remove("active"));
+      item.classList.add("active");
+
+      const name = item.querySelector(".conv-name").textContent;
+      const avatar = item.querySelector("img").src;
+      document.querySelector(".chat-header .conv-name").textContent = name;
+      document.querySelector(".chat-header img").src = avatar;
+
+      // Demo conversation reset
+      const chatBox = document.querySelector(".chat-messages");
+      chatBox.innerHTML = `<div class="chat-bubble theirs">Hey! Just saw your latest post, looks amazing.</div>`;
+    });
+  });
+
+  const sendBtn = document.querySelector("[data-chat-send]");
+  const chatInput = document.querySelector("[data-chat-input]");
+  if (!sendBtn) return;
+
+  const send = () => {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    const chatBox = document.querySelector(".chat-messages");
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble mine";
+    bubble.textContent = text;
+    chatBox.appendChild(bubble);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    chatInput.value = "";
+
+    // TODO: backend lagne ke baad:
+    // fetch(`/api/conversations/${id}/messages`, { method: "POST", body: JSON.stringify({ text }) })
+  };
+
+  sendBtn.addEventListener("click", send);
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") send();
+  });
+}
+
 /* ---------- Post composer ("What's on your mind?") ---------- */
 function initComposer() {
   const postBtn = document.querySelector("[data-composer-post]");
@@ -145,9 +336,9 @@ function addPostToFeed(text) {
           <span class="material-symbols-outlined">favorite</span>
           <span class="like-count">0</span>
         </button>
-        <button class="post-stat-btn">
+        <button class="post-stat-btn comment-toggle">
           <span class="material-symbols-outlined">chat_bubble</span>
-          <span>0</span>
+          <span class="comment-count">0</span>
         </button>
         <button class="post-stat-btn">
           <span class="material-symbols-outlined">share</span>
@@ -155,10 +346,23 @@ function addPostToFeed(text) {
       </div>
       <button class="post-save"><span class="material-symbols-outlined">bookmark</span></button>
     </div>
+    <div class="comments-section">
+      <div class="comment-list"></div>
+      <div class="comment-form">
+        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="You" />
+        <div class="comment-input-wrap">
+          <input type="text" placeholder="Write a comment..." />
+          <button type="button" data-comment-send><span class="material-symbols-outlined">send</span></button>
+        </div>
+      </div>
+    </div>
   `;
 
   feed.prepend(card);
-  initLikeButtons(); // naye button pe bhi listener lagana zaroori hai
+  // Naye elements pe listeners lagana zaroori hai (dobara call karne se
+  // purane buttons skip ho jate hain kyunke unpe dataset.bound set ho chuka hai)
+  initLikeButtons();
+  initComments();
 }
 
 function escapeHtml(str) {

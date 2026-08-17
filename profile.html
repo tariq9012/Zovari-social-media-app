@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zovari - Profile</title>
-  <link rel="icon" href="images/zovari-logo.png" />
+  <link rel="icon" href="zovari-logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,19 +34,19 @@
         <a href="explore.html" class="sidebar-link">
           <span class="material-symbols-outlined">explore</span><span>Explore</span>
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="notifications.html" class="sidebar-link">
           <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="messages.html" class="sidebar-link">
           <span class="material-symbols-outlined">mail</span><span>Messages</span>
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="index.html#composer" class="sidebar-link">
           <span class="material-symbols-outlined">add_box</span><span>Create</span>
         </a>
         <a href="profile.html" class="sidebar-link active">
           <span class="material-symbols-outlined icon-filled">person</span><span>Profile</span>
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="settings.html" class="sidebar-link">
           <span class="material-symbols-outlined">settings</span><span>Settings</span>
         </a>
       </nav>
@@ -117,9 +117,9 @@
             <p class="post-text">Just published my new case study on high-density data tables for financial dashboards. The key is establishing a clear typographic hierarchy before touching any borders or backgrounds. Minimalism isn't about fewer elements; it's about intentional focus.</p>
             <div class="post-footer">
               <div class="post-stats">
-                <button class="post-stat-btn">
+                <button class="post-stat-btn comment-toggle">
                   <span class="material-symbols-outlined">chat_bubble</span>
-                  <span>12</span>
+                  <span class="comment-count">12</span>
                 </button>
                 <button class="post-stat-btn">
                   <span class="material-symbols-outlined">repeat</span>
@@ -131,6 +131,25 @@
                 </button>
               </div>
               <button class="post-save"><span class="material-symbols-outlined">share</span></button>
+            </div>
+            <div class="comments-section">
+              <div class="comment-list">
+                <div class="comment-item">
+                  <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="David Chen" />
+                  <div class="comment-bubble">
+                    <div class="comment-author">David Chen</div>
+                    <div class="comment-text">This is exactly the framework I needed for our dashboard redesign.</div>
+                    <div class="comment-meta"><span>1h</span> <button type="button">Like</button> <button type="button">Reply</button></div>
+                  </div>
+                </div>
+              </div>
+              <div class="comment-form">
+                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="You" />
+                <div class="comment-input-wrap">
+                  <input type="text" placeholder="Write a comment..." />
+                  <button type="button" data-comment-send><span class="material-symbols-outlined">send</span></button>
+                </div>
+              </div>
             </div>
           </article>
 
@@ -145,9 +164,9 @@
             <img class="post-media" src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&w=1000&q=80" alt="Glassmorphism render" />
             <div class="post-footer">
               <div class="post-stats">
-                <button class="post-stat-btn">
+                <button class="post-stat-btn comment-toggle">
                   <span class="material-symbols-outlined">chat_bubble</span>
-                  <span>21</span>
+                  <span class="comment-count">21</span>
                 </button>
                 <button class="post-stat-btn">
                   <span class="material-symbols-outlined">repeat</span>
@@ -159,6 +178,25 @@
                 </button>
               </div>
               <button class="post-save"><span class="material-symbols-outlined">share</span></button>
+            </div>
+            <div class="comments-section">
+              <div class="comment-list">
+                <div class="comment-item">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Casey Smith" />
+                  <div class="comment-bubble">
+                    <div class="comment-author">Casey Smith</div>
+                    <div class="comment-text">The lighting on this render is unreal. What renderer are you using?</div>
+                    <div class="comment-meta"><span>20h</span> <button type="button">Like</button> <button type="button">Reply</button></div>
+                  </div>
+                </div>
+              </div>
+              <div class="comment-form">
+                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="You" />
+                <div class="comment-input-wrap">
+                  <input type="text" placeholder="Write a comment..." />
+                  <button type="button" data-comment-send><span class="material-symbols-outlined">send</span></button>
+                </div>
+              </div>
             </div>
           </article>
 
@@ -178,7 +216,7 @@
 
         <!-- Likes tab -->
         <div class="profile-panel" id="tab-likes">
-          <p style="color:var(--color-text-muted); padding:24px 0; text-align:center;">Alex ki liked posts yahan show hongi.</p>
+          <p style="color:var(--color-text-muted); padding:24px 0; text-align:center;">Likes show here.</p>
         </div>
 
       </div>
@@ -226,11 +264,11 @@
   <nav class="mobile-nav">
     <a href="index.html"><span class="material-symbols-outlined">home</span></a>
     <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
-    <a href="#"><span class="material-symbols-outlined">add_box</span></a>
-    <a href="#"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
     <a href="profile.html" class="active"><span class="material-symbols-outlined icon-filled">person</span></a>
   </nav>
 
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
