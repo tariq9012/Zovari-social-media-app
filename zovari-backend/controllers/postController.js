@@ -35,19 +35,23 @@ const getFeed = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     const { text, image } = req.body;
-    if (!text || !text.trim()) {
-      return res.status(400).json({ message: "Post text is required" });
+    const trimmedText = (text || "").trim();
+
+    // Ab dono me se kam az kam ek zaroori hai — sirf text, sirf image, ya dono
+    if (!trimmedText && !image) {
+      return res.status(400).json({ message: "Post needs some text or an image" });
     }
 
     const post = await Post.create({
       author: req.user._id,
-      text: text.trim(),
+      text: trimmedText,
       image: image || "",
     });
 
     const populatedPost = await post.populate("author", "name avatar");
     res.status(201).json(populatedPost);
   } catch (err) {
+    console.error("createPost error:", err); // Terminal me poora error dikhega debug ke liye
     res.status(500).json({ message: "Could not create post", error: err.message });
   }
 };
@@ -84,6 +88,36 @@ const toggleLike = async (req, res) => {
   }
 };
 
+// @route  PATCH /api/posts/:id (protected) - sirf apna post edit kar sakta hai
+const editPost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (String(post.author) !== String(req.user._id)) {
+      return res.status(403).json({ message: "You can only edit your own posts" });
+    }
+
+    const { text, image } = req.body;
+    const trimmedText = text !== undefined ? text.trim() : post.text;
+    const newImage = image !== undefined ? image : post.image;
+
+    if (!trimmedText && !newImage) {
+      return res.status(400).json({ message: "Post needs some text or an image" });
+    }
+
+    post.text = trimmedText;
+    post.image = newImage;
+    await post.save();
+
+    const populatedPost = await post.populate("author", "name avatar");
+    res.json(populatedPost);
+  } catch (err) {
+    console.error("editPost error:", err);
+    res.status(500).json({ message: "Could not edit post", error: err.message });
+  }
+};
+
 // @route  DELETE /api/posts/:id (protected) - sirf apna post delete kar sakta hai
 const deletePost = async (req, res) => {
   try {
@@ -101,4 +135,4 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { getFeed, createPost, toggleLike, deletePost };
+module.exports = { getFeed, createPost, editPost, toggleLike, deletePost };

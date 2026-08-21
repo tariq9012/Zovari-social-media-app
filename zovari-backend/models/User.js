@@ -49,11 +49,14 @@ const userSchema = new mongoose.Schema(
 );
 
 // Virtuals - counts frontend ke liye (followers.length wagera bhi seedha use ho sakta hai)
+// Guard lagana zaroori hai: jab User kisi doosre document (jaise Post.author) me sirf
+// name/avatar select kar ke populate hota hai, tab followers/following fields hi nahi
+// aati is document me - is liye pehle check karte hain warna crash ho jata hai.
 userSchema.virtual("followersCount").get(function () {
-  return this.followers.length;
+  return this.followers ? this.followers.length : undefined;
 });
 userSchema.virtual("followingCount").get(function () {
-  return this.following.length;
+  return this.following ? this.following.length : undefined;
 });
 
 userSchema.set("toJSON", { virtuals: true });
