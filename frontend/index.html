@@ -68,9 +68,14 @@
           <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Your avatar" />
           <textarea rows="1" placeholder="What's on your mind?" data-composer-input></textarea>
         </div>
+        <div class="composer-image-preview" data-composer-preview style="display:none; margin: 8px 0 0 56px;">
+          <img data-composer-preview-img src="" alt="Selected image" style="max-width: 200px; border-radius: 12px; display:block;" />
+          <button type="button" data-composer-remove-image style="margin-top:6px; font-size:13px; color:var(--color-text-muted); background:none; border:none; cursor:pointer;">Remove</button>
+        </div>
         <div class="composer-bottom">
           <div class="composer-actions">
-            <button title="Add image"><span class="material-symbols-outlined">image</span></button>
+            <input type="file" accept="image/*" data-composer-file-input hidden />
+            <button type="button" title="Add image" data-composer-image-btn><span class="material-symbols-outlined">image</span></button>
             <button title="Add link"><span class="material-symbols-outlined">link</span></button>
             <button title="Add emoji"><span class="material-symbols-outlined">mood</span></button>
           </div>

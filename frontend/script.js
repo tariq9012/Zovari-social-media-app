@@ -44,6 +44,25 @@ async function apiFetch(path, options = {}) {
   return data;
 }
 
+// Image file ko backend (Cloudinary) pe upload karta hai aur uska public URL wapis deta hai
+async function uploadFile(file) {
+  const token = getToken();
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const res = await fetch(`${API_BASE}/upload`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {}, // Content-Type manually mat lagana - browser boundary khud set karta hai
+    body: formData,
+  });
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.message || "Image upload failed");
+  }
+  return data.url;
+}
+
 // "5 minutes ago" jaisa time dikhane ke liye
 function timeAgo(dateStr) {
   const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -74,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProfile(); // profile page pe real user + posts la kar dikhata hai
   loadExplore(); // explore page pe real creators + popular posts
   loadNotifications(); // notifications page pe real notifications
+  initPostMenus(); // post ke 3-dot menu (edit/delete/report/copy link)
 });
 
 /* ---------- Logout (sidebar ka "Logout" link) ---------- */
@@ -606,14 +626,45 @@ function initSettingsToggles() {
     if (nameInput) nameInput.value = currentUser.name || "";
     if (emailInput) emailInput.value = currentUser.email || "";
   }
+
+  const avatarPreview = document.querySelector("[data-settings-avatar-preview]");
+  const avatarInput = document.querySelector("[data-settings-avatar-input]");
+  const avatarBtn = document.querySelector("[data-settings-avatar-btn]");
+  let selectedAvatarFile = null;
+  let uploadedAvatarUrl = "";
+
   apiFetch(`/users/${currentUser?._id}`)
     .then(({ user }) => {
       const bioInput = document.getElementById("set-bio");
       const locationInput = document.getElementById("set-location");
       if (bioInput) bioInput.value = user.bio || "";
       if (locationInput) locationInput.value = user.location || "";
+      if (avatarPreview && user.avatar) avatarPreview.src = user.avatar;
     })
-    .catch((err) => console.warn("Settings load nahi huien:", err.message));
+    .catch((err) => console.warn("Could not load settings:", err.message));
+
+  if (avatarBtn && avatarInput) {
+    avatarBtn.addEventListener("click", () => avatarInput.click());
+
+    avatarInput.addEventListener("change", () => {
+      const file = avatarInput.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        showToast("Please select an image file");
+        avatarInput.value = "";
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("Image must be under 5MB");
+        avatarInput.value = "";
+        return;
+      }
+
+      selectedAvatarFile = file;
+      avatarPreview.src = URL.createObjectURL(file);
+    });
+  }
 
   saveBtn.addEventListener("click", async () => {
     const name = document.getElementById("set-name")?.value.trim();
@@ -622,20 +673,37 @@ function initSettingsToggles() {
 
     try {
       saveBtn.disabled = true;
+
+      if (selectedAvatarFile) {
+        saveBtn.textContent = "Uploading photo...";
+        uploadedAvatarUrl = await uploadFile(selectedAvatarFile);
+        selectedAvatarFile = null;
+      }
+
+      saveBtn.textContent = "Save changes";
+      const payload = { name, bio, location };
+      if (uploadedAvatarUrl) payload.avatar = uploadedAvatarUrl;
+
       const updatedUser = await apiFetch("/users/me", {
         method: "PATCH",
-        body: JSON.stringify({ name, bio, location }),
+        body: JSON.stringify(payload),
       });
       // localStorage me bhi naya naam/avatar update kar dena taake baqi pages sahi dikhein
       const session = getCurrentUser();
       if (session) {
-        saveSession(getToken(), { ...session, name: updatedUser.name, bio: updatedUser.bio });
+        saveSession(getToken(), {
+          ...session,
+          name: updatedUser.name,
+          bio: updatedUser.bio,
+          avatar: updatedUser.avatar,
+        });
       }
       showToast("Settings saved");
     } catch (err) {
       showToast(err.message);
     } finally {
       saveBtn.disabled = false;
+      saveBtn.textContent = "Save changes";
     }
   });
 }
@@ -790,10 +858,49 @@ function initComposer() {
   if (!postBtn) return;
 
   const textarea = document.querySelector("[data-composer-input]");
+  const imageBtn = document.querySelector("[data-composer-image-btn]");
+  const fileInput = document.querySelector("[data-composer-file-input]");
+  const previewBox = document.querySelector("[data-composer-preview]");
+  const previewImg = document.querySelector("[data-composer-preview-img]");
+  const removeImageBtn = document.querySelector("[data-composer-remove-image]");
+  let selectedFile = null;
+
+  if (imageBtn && fileInput) {
+    imageBtn.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        showToast("Please select an image file");
+        fileInput.value = "";
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("Image must be under 5MB");
+        fileInput.value = "";
+        return;
+      }
+
+      selectedFile = file;
+      previewImg.src = URL.createObjectURL(file);
+      previewBox.style.display = "block";
+    });
+  }
+
+  if (removeImageBtn) {
+    removeImageBtn.addEventListener("click", () => {
+      selectedFile = null;
+      fileInput.value = "";
+      previewBox.style.display = "none";
+    });
+  }
 
   postBtn.addEventListener("click", async () => {
     const text = textarea.value.trim();
-    if (!text) {
+    if (!text && !selectedFile) {
+      showToast("Write something or add an image first");
       textarea.focus();
       return;
     }
@@ -806,27 +913,186 @@ function initComposer() {
 
     try {
       postBtn.disabled = true;
+
+      let imageUrl = "";
+      if (selectedFile) {
+        postBtn.textContent = "Uploading...";
+        imageUrl = await uploadFile(selectedFile);
+      }
+
+      postBtn.textContent = "Post";
       const post = await apiFetch("/posts", {
         method: "POST",
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, image: imageUrl }),
       });
       const feed = document.querySelector("[data-feed]");
       feed.prepend(buildPostCard(post));
+
       textarea.value = "";
+      selectedFile = null;
+      if (fileInput) fileInput.value = "";
+      if (previewBox) previewBox.style.display = "none";
     } catch (err) {
       showToast(err.message);
     } finally {
       postBtn.disabled = false;
+      postBtn.textContent = "Post";
     }
   });
 }
 
 // Backend se aaye post object (author, text, likes, createdAt) se ek post-card DOM element banata hai
+/* ---------- Post 3-dot menu: Edit/Delete (apna post) ya Copy link/Report (kisi aur ka post) ---------- */
+function initPostMenus() {
+  if (document.body.dataset.postMenuBound) return; // event delegation - sirf ek dafa bind karna hai
+  document.body.dataset.postMenuBound = "true";
+
+  document.addEventListener("click", async (e) => {
+    const toggleBtn = e.target.closest("[data-post-menu-toggle]");
+    if (toggleBtn) {
+      const menu = toggleBtn.nextElementSibling;
+      const wasOpen = menu.classList.contains("open");
+      document.querySelectorAll(".post-menu.open").forEach((m) => m.classList.remove("open"));
+      if (!wasOpen) menu.classList.add("open");
+      return;
+    }
+
+    const actionBtn = e.target.closest("[data-action]");
+    if (actionBtn) {
+      const card = actionBtn.closest("[data-post-id]");
+      const menu = actionBtn.closest(".post-menu");
+      if (menu) menu.classList.remove("open");
+      const postId = card ? card.dataset.postId : null;
+
+      if (actionBtn.dataset.action === "edit") startPostEdit(card);
+      else if (actionBtn.dataset.action === "delete") await deletePostCard(card, postId);
+      else if (actionBtn.dataset.action === "copy-link") copyPostLink(postId);
+      else if (actionBtn.dataset.action === "report") showToast("Post reported. Thanks for letting us know.");
+      return;
+    }
+
+    // Kahin aur click hua (menu ke bahar) - sab khule menu band kar do
+    if (!e.target.closest(".post-menu")) {
+      document.querySelectorAll(".post-menu.open").forEach((m) => m.classList.remove("open"));
+    }
+  });
+}
+
+// Post ko inline edit karne ke liye textarea box dikhana
+function startPostEdit(card) {
+  if (!card || card.querySelector(".post-edit-box")) return;
+
+  const textEl = card.querySelector(".post-text");
+  const currentText = textEl ? textEl.textContent : "";
+
+  const editBox = document.createElement("div");
+  editBox.className = "post-edit-box";
+  editBox.innerHTML = `
+    <textarea>${escapeHtml(currentText)}</textarea>
+    <div class="post-edit-actions">
+      <button type="button" class="btn btn-secondary btn-pill" data-edit-cancel>Cancel</button>
+      <button type="button" class="btn btn-primary btn-pill" data-edit-save>Save</button>
+    </div>
+  `;
+
+  if (textEl) {
+    textEl.style.display = "none";
+    textEl.insertAdjacentElement("afterend", editBox);
+  } else {
+    card.querySelector(".post-header").insertAdjacentElement("afterend", editBox);
+  }
+
+  const textarea = editBox.querySelector("textarea");
+  textarea.focus();
+
+  editBox.querySelector("[data-edit-cancel]").addEventListener("click", () => {
+    editBox.remove();
+    if (textEl) textEl.style.display = "";
+  });
+
+  editBox.querySelector("[data-edit-save]").addEventListener("click", async () => {
+    const newText = textarea.value.trim();
+    const hasImage = !!card.querySelector(".post-media");
+    if (!newText && !hasImage) {
+      showToast("Post needs some text or an image");
+      return;
+    }
+
+    try {
+      const updated = await apiFetch(`/posts/${card.dataset.postId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ text: newText }),
+      });
+      editBox.remove();
+
+      if (textEl) {
+        if (updated.text) {
+          textEl.textContent = updated.text;
+          textEl.style.display = "";
+        } else {
+          textEl.remove(); // text hata diya, sirf image reh gayi
+        }
+      } else if (updated.text) {
+        const p = document.createElement("p");
+        p.className = "post-text";
+        p.textContent = updated.text;
+        card.querySelector(".post-header").insertAdjacentElement("afterend", p);
+      }
+      showToast("Post updated");
+    } catch (err) {
+      showToast(err.message);
+    }
+  });
+}
+
+// Post delete karne se pehle confirm karna
+async function deletePostCard(card, postId) {
+  if (!card || !postId) return;
+  if (!window.confirm("Delete this post? This cannot be undone.")) return;
+
+  try {
+    await apiFetch(`/posts/${postId}`, { method: "DELETE" });
+    card.remove();
+    showToast("Post deleted");
+  } catch (err) {
+    showToast(err.message);
+  }
+}
+
+// Post ka link clipboard me copy karna
+function copyPostLink(postId) {
+  const basePath = window.location.pathname.replace(/[^/]*$/, "");
+  const url = `${window.location.origin}${basePath}index.html?post=${postId}`;
+  navigator.clipboard.writeText(url).then(
+    () => showToast("Link copied"),
+    () => showToast("Could not copy link")
+  );
+}
+
 function buildPostCard(post) {
   const author = post.author || {};
   const currentUser = getCurrentUser();
   const alreadyLiked =
     currentUser && Array.isArray(post.likes) && post.likes.some((id) => String(id) === String(currentUser._id));
+  const isOwnPost = currentUser && author._id && String(currentUser._id) === String(author._id);
+
+  const menuItemsHtml = isOwnPost
+    ? `
+      <button class="post-menu-item" data-action="edit">
+        <span class="material-symbols-outlined">edit</span> Edit post
+      </button>
+      <button class="post-menu-item danger" data-action="delete">
+        <span class="material-symbols-outlined">delete</span> Delete post
+      </button>
+    `
+    : `
+      <button class="post-menu-item" data-action="copy-link">
+        <span class="material-symbols-outlined">link</span> Copy link
+      </button>
+      <button class="post-menu-item danger" data-action="report">
+        <span class="material-symbols-outlined">flag</span> Report post
+      </button>
+    `;
 
   const card = document.createElement("article");
   card.className = "post-card";
@@ -842,9 +1108,11 @@ function buildPostCard(post) {
         </a>
         <div class="post-author-meta">${timeAgo(post.createdAt)}</div>
       </div>
-      <button class="post-more"><span class="material-symbols-outlined">more_horiz</span></button>
+      <button class="post-more" data-post-menu-toggle><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="post-menu" data-post-menu>${menuItemsHtml}</div>
     </div>
-    <p class="post-text">${escapeHtml(post.text)}</p>
+    ${post.text ? `<p class="post-text">${escapeHtml(post.text)}</p>` : ""}
+    ${post.image ? `<img class="post-media" src="${post.image}" alt="Post image" />` : ""}
     <div class="post-footer">
       <div class="post-stats">
         <button class="post-stat-btn like-btn${alreadyLiked ? " liked" : ""}">
@@ -877,6 +1145,7 @@ function buildPostCard(post) {
   // purane cards ke listeners dobara nahi lagtay, sirf yeh naya card cover hota hai)
   initLikeButtons();
   initComments();
+  initPostMenus();
   return card;
 }
 

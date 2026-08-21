@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: [true, "Post text is required"],
+      default: "",
       maxlength: 2000,
     },
     image: {
