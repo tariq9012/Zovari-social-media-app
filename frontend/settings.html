@@ -15,6 +15,43 @@
 </head>
 <body>
 
+  <!-- Mobile top bar (phone/tablet only) -->
+  <header class="mobile-topbar">
+    <div class="mobile-topbar-main" data-mobile-topbar-main>
+      <a href="index.html" class="mobile-topbar-brand">
+        <img src="zovari-logo.png" alt="Zovari" />
+        <span>Zovari</span>
+      </a>
+      <div class="mobile-topbar-actions">
+        <a href="messages.html" class="mobile-topbar-icon">
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge-mobile style="display:none;">0</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-topbar-icon" data-mobile-search-btn>
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button type="button" class="mobile-topbar-icon" data-mobile-menu-btn>
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-search-row" data-mobile-search-row style="display:none;">
+      <button type="button" class="mobile-topbar-icon" data-mobile-search-close>
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." data-global-search />
+        <div class="search-results" data-search-results></div>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-dropdown" data-mobile-topbar-dropdown style="display:none;"></div>
+  </header>
+
   <div class="app-shell no-rail">
 
     <!-- ===== Left Sidebar ===== -->
@@ -34,17 +71,29 @@
         <a href="explore.html" class="sidebar-link">
           <span class="material-symbols-outlined">explore</span><span>Explore</span>
         </a>
+        <a href="reels.html" class="sidebar-link">
+          <span class="material-symbols-outlined">smart_display</span><span>Reels</span>
+        </a>
         <a href="notifications.html" class="sidebar-link">
-          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="badge-count" data-notif-badge style="display:none;">0</span>
+          </span><span>Notifications</span>
         </a>
         <a href="messages.html" class="sidebar-link">
-          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge style="display:none;">0</span>
+          </span><span>Messages</span>
         </a>
         <a href="index.html#composer" class="sidebar-link">
           <span class="material-symbols-outlined">add_box</span><span>Create</span>
         </a>
         <a href="profile.html" class="sidebar-link">
           <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="saved.html" class="sidebar-link">
+          <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
         </a>
         <a href="settings.html" class="sidebar-link active">
           <span class="material-symbols-outlined icon-filled">settings</span><span>Settings</span>
@@ -62,6 +111,72 @@
     <!-- ===== Main ===== -->
     <main class="main-col" style="border-right:none; max-width:640px;">
       <h2 class="section-title" style="margin-top:0;">Settings</h2>
+
+      <div class="settings-card verification-card">
+        <h3>Get Verified <span class="material-symbols-outlined icon-filled verified-badge-inline" style="font-size:18px;">verified</span></h3>
+        <p>Get a blue verification badge and stand out on Zovari.</p>
+
+        <!-- Already subscribed - status view -->
+        <div class="verification-active" data-verification-active style="display:none;">
+          <div class="verification-status-row">
+            <span class="material-symbols-outlined icon-filled verified-badge-inline" style="font-size:24px;">verified</span>
+            <div>
+              <div class="verification-status-title">You're verified</div>
+              <div class="verification-status-sub" data-verification-status-sub></div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" data-verification-cancel-btn>Cancel subscription</button>
+        </div>
+
+        <!-- Not subscribed - plan picker + checkout -->
+        <div class="verification-inactive" data-verification-inactive>
+          <div class="verification-plans">
+            <button type="button" class="verification-plan-option selected" data-plan="monthly" data-price="11.99">
+              <div class="verification-plan-name">Monthly</div>
+              <div class="verification-plan-price">$11.99<span>/month</span></div>
+            </button>
+            <button type="button" class="verification-plan-option" data-plan="yearly" data-price="99.99">
+              <div class="verification-plan-name">Yearly</div>
+              <div class="verification-plan-price">$99.99<span>/year</span></div>
+              <div class="verification-plan-save">Save 30%</div>
+            </button>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block" data-verification-subscribe-btn>Subscribe</button>
+        </div>
+      </div>
+
+      <!-- Checkout modal (mock payment - card ke sirf last-4 store hote hain) -->
+      <div class="checkout-modal" data-checkout-modal style="display:none;">
+        <div class="checkout-box">
+          <div class="checkout-header">
+            <h3>Complete your subscription</h3>
+            <button type="button" data-checkout-close><span class="material-symbols-outlined">close</span></button>
+          </div>
+          <div class="checkout-summary" data-checkout-summary></div>
+
+          <label class="checkout-label">Card number</label>
+          <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" data-checkout-card-number />
+
+          <label class="checkout-label">Name on card</label>
+          <input type="text" placeholder="Tariq Khan" data-checkout-card-name />
+
+          <div class="checkout-row">
+            <div>
+              <label class="checkout-label">Expiry</label>
+              <input type="text" placeholder="MM/YY" maxlength="5" data-checkout-expiry />
+            </div>
+            <div>
+              <label class="checkout-label">CVV</label>
+              <input type="text" inputmode="numeric" placeholder="123" maxlength="4" data-checkout-cvv />
+            </div>
+          </div>
+
+          <p class="checkout-disclaimer">This is a demo checkout for this college project - no real payment is processed.</p>
+
+          <button type="button" class="btn btn-primary btn-block" data-checkout-pay-btn>Pay & Subscribe</button>
+        </div>
+      </div>
 
       <div class="settings-card">
         <h3>Profile information</h3>
@@ -131,7 +246,7 @@
             <div class="toggle-sub">only followers can view this</div>
           </div>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" id="set-private" />
             <span class="switch-track"></span>
           </label>
         </div>
@@ -142,7 +257,7 @@
             <div class="toggle-sub">all view your online status</div>
           </div>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input type="checkbox" id="set-activity-status" checked />
             <span class="switch-track"></span>
           </label>
         </div>
@@ -158,7 +273,7 @@
             <div class="toggle-sub">when someone like your post</div>
           </div>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input type="checkbox" id="set-notify-likes" checked />
             <span class="switch-track"></span>
           </label>
         </div>
@@ -169,7 +284,7 @@
             <div class="toggle-sub">when someone comment on you</div>
           </div>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input type="checkbox" id="set-notify-comments" checked />
             <span class="switch-track"></span>
           </label>
         </div>
@@ -180,9 +295,36 @@
             <div class="toggle-sub">when you follow someone</div>
           </div>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input type="checkbox" id="set-notify-follows" checked />
             <span class="switch-track"></span>
           </label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Mentions</div>
+            <div class="toggle-sub">when someone @mentions you</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="set-notify-mentions" checked />
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Follow Requests</h3>
+        <p>People who want to follow your private account.</p>
+        <div class="blocked-list" data-follow-requests-list>
+          <p style="color:var(--color-text-muted); font-size:13px;">Loading...</p>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Blocked Accounts</h3>
+        <p>People you've blocked can't message, call, or find your profile.</p>
+        <div class="blocked-list" data-blocked-list>
+          <p style="color:var(--color-text-muted); font-size:13px;">Loading...</p>
         </div>
       </div>
 
@@ -195,11 +337,13 @@
   <nav class="mobile-nav">
     <a href="index.html"><span class="material-symbols-outlined">home</span></a>
     <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="reels.html"><span class="material-symbols-outlined">smart_display</span></a>
     <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
-    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="notifications.html"><span class="sidebar-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="badge-count" data-notif-badge-mobile style="display:none;">0</span></span></a>
     <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
   </nav>
 
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

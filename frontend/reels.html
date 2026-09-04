@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zovari - Messages</title>
+  <title>Zovari - Reels</title>
   <link rel="icon" href="zovari-logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,7 +13,7 @@
 
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="reels-page">
 
   <!-- Mobile top bar (phone/tablet only) -->
   <header class="mobile-topbar">
@@ -71,8 +71,8 @@
         <a href="explore.html" class="sidebar-link">
           <span class="material-symbols-outlined">explore</span><span>Explore</span>
         </a>
-        <a href="reels.html" class="sidebar-link">
-          <span class="material-symbols-outlined">smart_display</span><span>Reels</span>
+        <a href="reels.html" class="sidebar-link active">
+          <span class="material-symbols-outlined icon-filled">smart_display</span><span>Reels</span>
         </a>
         <a href="notifications.html" class="sidebar-link">
           <span class="sidebar-icon-wrap">
@@ -80,9 +80,9 @@
             <span class="badge-count" data-notif-badge style="display:none;">0</span>
           </span><span>Notifications</span>
         </a>
-        <a href="messages.html" class="sidebar-link active">
+        <a href="messages.html" class="sidebar-link">
           <span class="sidebar-icon-wrap">
-            <span class="material-symbols-outlined icon-filled">mail</span>
+            <span class="material-symbols-outlined">mail</span>
             <span class="badge-count" data-msg-badge style="display:none;">0</span>
           </span><span>Messages</span>
         </a>
@@ -101,99 +101,69 @@
       </nav>
 
       <div class="sidebar-footer">
-        <button class="btn btn-primary btn-block"><span>Post</span></button>
+        <button class="btn btn-primary btn-block" data-reel-upload-btn><span>Upload Reel</span></button>
         <a href="login.html" class="sidebar-link">
           <span class="material-symbols-outlined">logout</span><span>Logout</span>
         </a>
       </div>
     </aside>
 
-    <!-- ===== Main ===== -->
-    <main class="main-col" style="border-right:none;">
-      <div class="messages-shell">
+    <!-- ===== Reels Feed ===== -->
+    <main class="main-col reels-main">
+      <input type="file" accept="video/*" data-reel-file-input hidden />
 
-        <div class="conv-list">
-          <div class="conv-list-header">
-            <h3>Messages</h3>
-            <button type="button" class="conv-new-group-btn" data-new-group-btn title="New group">
-              <span class="material-symbols-outlined">group_add</span>
-            </button>
-          </div>
-          <div class="conv-items" data-conv-items></div>
-        </div>
+      <div class="reels-feed" data-reels-feed>
+        <!-- Reel cards JS se yahan render hote hain (infinite vertical scroll) -->
+      </div>
 
-        <div class="chat-panel">
-          <div class="chat-header" data-chat-header>
-            <button type="button" class="chat-back-btn" data-chat-back-btn>
-              <span class="material-symbols-outlined">arrow_back</span>
-            </button>
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Sarah Jenkins" data-chat-header-avatar />
-            <div class="chat-header-info">
-              <div class="conv-name">Sarah Jenkins</div>
-              <div class="chat-header-sub" data-chat-header-sub style="display:none;"></div>
-            </div>
-            <button type="button" class="chat-header-call-btn" data-chat-call-audio title="Voice call">
-              <span class="material-symbols-outlined">call</span>
-            </button>
-            <button type="button" class="chat-header-call-btn" data-chat-call-video title="Video call">
-              <span class="material-symbols-outlined">videocam</span>
-            </button>
-            <button type="button" class="chat-header-menu-btn" data-chat-menu-btn style="display:none;">
-              <span class="material-symbols-outlined">more_vert</span>
-            </button>
-            <div class="chat-header-dropdown" data-chat-header-dropdown style="display:none;"></div>
-          </div>
-          <input type="file" accept="image/*" data-group-avatar-input hidden />
-
-          <div class="chat-messages">
-            <div class="chat-bubble theirs">Hey! Just saw your latest post, looks amazing.</div>
-            <div class="chat-bubble mine">Thank you! Took a while to get the lighting right.</div>
-            <div class="chat-bubble theirs">Worth it though, the result is great.</div>
-          </div>
-
-          <div class="chat-typing" data-chat-typing style="display:none;">typing...</div>
-
-          <div class="chat-input-row">
-            <input type="text" placeholder="Type a message..." data-chat-input />
-            <button data-chat-send><span class="material-symbols-outlined">send</span></button>
-          </div>
-        </div>
-
+      <div class="reels-empty" data-reels-empty style="display:none;">
+        <span class="material-symbols-outlined" style="font-size:48px;">smart_display</span>
+        <p>No reels yet. Be the first to upload one!</p>
+        <button class="btn btn-primary" data-reel-upload-btn>Upload Reel</button>
       </div>
     </main>
 
   </div>
 
-  <!-- New Group / Add Members modal (shared - mode controlled by JS) -->
-  <div class="group-modal" data-group-modal style="display:none;">
-    <div class="group-modal-box">
-      <div class="group-modal-header">
-        <h3 data-group-modal-title>New Group</h3>
-        <button type="button" data-group-modal-close><span class="material-symbols-outlined">close</span></button>
+  <!-- Upload Reel modal -->
+  <div class="reel-upload-modal" data-reel-upload-modal style="display:none;">
+    <div class="reel-upload-box">
+      <div class="reel-upload-header">
+        <h3>New Reel</h3>
+        <button type="button" data-reel-upload-close><span class="material-symbols-outlined">close</span></button>
       </div>
-      <input type="text" placeholder="Group name" data-group-modal-name />
-      <input type="text" placeholder="Search people to add..." data-group-modal-search />
-      <div class="group-modal-selected" data-group-modal-selected></div>
-      <div class="group-modal-results" data-group-modal-results></div>
-      <button class="btn btn-primary btn-block" data-group-modal-submit>Create Group</button>
+      <video class="reel-upload-preview" data-reel-upload-preview controls muted></video>
+      <textarea rows="2" placeholder="Write a caption..." data-reel-caption-input></textarea>
+      <button class="btn btn-primary btn-block" data-reel-upload-submit>Post Reel</button>
     </div>
   </div>
 
-  <!-- Group info modal (members list, rename, add, leave) -->
-  <div class="group-modal" data-group-info-modal style="display:none;">
-    <div class="group-modal-box">
-      <div class="group-modal-header">
-        <h3>Group Info</h3>
-        <button type="button" data-group-info-close><span class="material-symbols-outlined">close</span></button>
+  <!-- Reaction emoji picker (shared - JS repositions it above the reel jisko react kar rahe ho) -->
+  <div class="reel-reaction-picker" data-reel-reaction-picker style="display:none;">
+    <button type="button" data-reaction="like" title="Like">👍</button>
+    <button type="button" data-reaction="love" title="Love">❤️</button>
+    <button type="button" data-reaction="haha" title="Haha">😂</button>
+    <button type="button" data-reaction="wow" title="Wow">😮</button>
+    <button type="button" data-reaction="sad" title="Sad">😢</button>
+    <button type="button" data-reaction="angry" title="Angry">😡</button>
+  </div>
+
+  <!-- 3-dot menu (shared - Copy Link + Report/Delete) -->
+  <div class="reel-menu-dropdown" data-reel-menu-dropdown style="display:none;"></div>
+
+  <!-- Comments bottom sheet -->
+  <div class="reel-comments-sheet" data-reel-comments-sheet style="display:none;">
+    <div class="reel-comments-box">
+      <div class="reel-comments-header">
+        <h3>Comments</h3>
+        <button type="button" data-reel-comments-close><span class="material-symbols-outlined">close</span></button>
       </div>
-      <div class="group-info-name-row">
-        <input type="text" data-group-info-name-input />
-        <button data-group-info-rename-save class="btn btn-primary" style="display:none;">Save</button>
-      </div>
-      <div class="group-info-members" data-group-info-members></div>
-      <div class="group-modal-footer">
-        <button class="btn btn-secondary btn-block" data-group-info-add-btn>Add Members</button>
-        <button class="btn btn-block group-leave-btn" data-group-info-leave-btn>Leave Group</button>
+      <div class="reel-comments-list" data-reel-comments-list></div>
+      <div class="reel-comments-input-row">
+        <input type="text" placeholder="Add a comment..." data-reel-comment-input maxlength="500" />
+        <button type="button" data-reel-comment-send>
+          <span class="material-symbols-outlined">send</span>
+        </button>
       </div>
     </div>
   </div>
@@ -202,8 +172,7 @@
   <nav class="mobile-nav">
     <a href="index.html"><span class="material-symbols-outlined">home</span></a>
     <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
-    <a href="reels.html"><span class="material-symbols-outlined">smart_display</span></a>
-    <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
+    <a href="reels.html" class="active"><span class="material-symbols-outlined icon-filled">smart_display</span></a>
     <a href="notifications.html"><span class="sidebar-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="badge-count" data-notif-badge-mobile style="display:none;">0</span></span></a>
     <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
   </nav>

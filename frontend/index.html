@@ -15,6 +15,43 @@
 </head>
 <body>
 
+  <!-- Mobile top bar (phone/tablet only) -->
+  <header class="mobile-topbar">
+    <div class="mobile-topbar-main" data-mobile-topbar-main>
+      <a href="index.html" class="mobile-topbar-brand">
+        <img src="zovari-logo.png" alt="Zovari" />
+        <span>Zovari</span>
+      </a>
+      <div class="mobile-topbar-actions">
+        <a href="messages.html" class="mobile-topbar-icon">
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge-mobile style="display:none;">0</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-topbar-icon" data-mobile-search-btn>
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button type="button" class="mobile-topbar-icon" data-mobile-menu-btn>
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-search-row" data-mobile-search-row style="display:none;">
+      <button type="button" class="mobile-topbar-icon" data-mobile-search-close>
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." data-global-search />
+        <div class="search-results" data-search-results></div>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-dropdown" data-mobile-topbar-dropdown style="display:none;"></div>
+  </header>
+
   <div class="app-shell">
 
     <!-- ===== Left Sidebar ===== -->
@@ -34,17 +71,29 @@
         <a href="explore.html" class="sidebar-link">
           <span class="material-symbols-outlined">explore</span><span>Explore</span>
         </a>
+        <a href="reels.html" class="sidebar-link">
+          <span class="material-symbols-outlined">smart_display</span><span>Reels</span>
+        </a>
         <a href="notifications.html" class="sidebar-link">
-          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="badge-count" data-notif-badge style="display:none;">0</span>
+          </span><span>Notifications</span>
         </a>
         <a href="messages.html" class="sidebar-link">
-          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge style="display:none;">0</span>
+          </span><span>Messages</span>
         </a>
         <a href="#composer" class="sidebar-link" data-focus-composer>
           <span class="material-symbols-outlined">add_box</span><span>Create</span>
         </a>
         <a href="profile.html" class="sidebar-link">
           <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="saved.html" class="sidebar-link">
+          <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
         </a>
         <a href="settings.html" class="sidebar-link">
           <span class="material-symbols-outlined">settings</span><span>Settings</span>
@@ -62,22 +111,44 @@
     <!-- ===== Main Feed ===== -->
     <main class="main-col">
 
+      <!-- Stories -->
+      <div class="stories-bar" data-stories-bar>
+        <!-- "Your Story" + followed users ki stories yahan JS se render hoti hain -->
+      </div>
+      <input type="file" accept="image/*,video/*" data-story-file-input hidden />
+
       <!-- Composer -->
+      <div class="verify-banner" data-verify-banner style="display:none;">
+        <span class="material-symbols-outlined">mark_email_unread</span>
+        <span>Please verify your email address.</span>
+        <button type="button" data-resend-verify-btn>Resend email</button>
+      </div>
+
       <div class="composer" id="composer">
         <div class="composer-top">
           <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="Your avatar" />
           <textarea rows="1" placeholder="What's on your mind?" data-composer-input></textarea>
         </div>
-        <div class="composer-image-preview" data-composer-preview style="display:none; margin: 8px 0 0 56px;">
-          <img data-composer-preview-img src="" alt="Selected image" style="max-width: 200px; border-radius: 12px; display:block;" />
-          <button type="button" data-composer-remove-image style="margin-top:6px; font-size:13px; color:var(--color-text-muted); background:none; border:none; cursor:pointer;">Remove</button>
+        <div class="composer-image-preview" data-composer-preview>
+          <!-- Image thumbnails ya video preview yahan JS se add hongi -->
         </div>
         <div class="composer-bottom">
           <div class="composer-actions">
-            <input type="file" accept="image/*" data-composer-file-input hidden />
-            <button type="button" title="Add image" data-composer-image-btn><span class="material-symbols-outlined">image</span></button>
-            <button title="Add link"><span class="material-symbols-outlined">link</span></button>
-            <button title="Add emoji"><span class="material-symbols-outlined">mood</span></button>
+            <input type="file" accept="image/*" multiple data-composer-file-input hidden />
+            <input type="file" accept="video/*" data-composer-video-input hidden />
+            <button type="button" title="Add photos" data-composer-image-btn><span class="material-symbols-outlined">image</span></button>
+            <button type="button" title="Add video" data-composer-video-btn><span class="material-symbols-outlined">videocam</span></button>
+            <div class="link-picker-wrap">
+              <button type="button" title="Add link" data-link-btn><span class="material-symbols-outlined">link</span></button>
+              <div class="link-picker" data-link-picker>
+                <input type="url" placeholder="Paste a link..." data-link-input />
+                <button type="button" class="btn btn-primary btn-pill" data-link-add>Add</button>
+              </div>
+            </div>
+            <div class="emoji-picker-wrap">
+              <button type="button" title="Add emoji" data-emoji-btn><span class="material-symbols-outlined">mood</span></button>
+              <div class="emoji-picker" data-emoji-picker></div>
+            </div>
           </div>
           <button class="btn btn-primary" data-composer-post>Post</button>
         </div>
@@ -238,13 +309,16 @@
         </article>
 
       </div>
+
+      <div data-feed-sentinel style="text-align:center; padding:16px 0; font-size:13px; color:var(--color-text-muted);"></div>
     </main>
 
     <!-- ===== Right Rail ===== -->
     <aside class="right-rail">
       <div class="search-box">
         <span class="material-symbols-outlined">search</span>
-        <input type="text" placeholder="Search Zovari..." data-feed-search />
+        <input type="text" placeholder="Search Zovari..." data-global-search />
+        <div class="search-results" data-search-results></div>
       </div>
 
       <div class="rail-card">
@@ -286,15 +360,44 @@
 
   </div>
 
+  <!-- Story Viewer (fullscreen) -->
+  <div class="story-viewer" data-story-viewer style="display:none;">
+    <div class="story-viewer-progress-row" data-story-progress-row></div>
+    <div class="story-viewer-header">
+      <img class="story-viewer-avatar" data-story-viewer-avatar alt="" />
+      <div class="story-viewer-meta">
+        <span class="story-viewer-name" data-story-viewer-name></span>
+        <span class="story-viewer-time" data-story-viewer-time></span>
+      </div>
+      <button type="button" class="story-viewer-delete" data-story-viewer-delete title="Delete story" style="display:none;">
+        <span class="material-symbols-outlined">delete</span>
+      </button>
+      <button type="button" class="story-viewer-close" data-story-viewer-close>
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="story-viewer-content" data-story-viewer-content></div>
+    <button type="button" class="story-viewer-nav story-viewer-prev" data-story-prev>
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    <button type="button" class="story-viewer-nav story-viewer-next" data-story-next>
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+    <div class="story-viewer-caption" data-story-viewer-caption></div>
+    <div class="story-viewer-views" data-story-viewer-views style="display:none;"></div>
+  </div>
+
   <!-- Mobile bottom nav -->
   <nav class="mobile-nav">
     <a href="index.html" class="active"><span class="material-symbols-outlined icon-filled">home</span></a>
     <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="reels.html"><span class="material-symbols-outlined">smart_display</span></a>
     <a href="#composer" data-focus-composer><span class="material-symbols-outlined">add_box</span></a>
-    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="notifications.html"><span class="sidebar-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="badge-count" data-notif-badge-mobile style="display:none;">0</span></span></a>
     <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
   </nav>
 
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
