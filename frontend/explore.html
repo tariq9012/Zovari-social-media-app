@@ -15,6 +15,43 @@
 </head>
 <body>
 
+  <!-- Mobile top bar (phone/tablet only) -->
+  <header class="mobile-topbar">
+    <div class="mobile-topbar-main" data-mobile-topbar-main>
+      <a href="index.html" class="mobile-topbar-brand">
+        <img src="zovari-logo.png" alt="Zovari" />
+        <span>Zovari</span>
+      </a>
+      <div class="mobile-topbar-actions">
+        <a href="messages.html" class="mobile-topbar-icon">
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge-mobile style="display:none;">0</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-topbar-icon" data-mobile-search-btn>
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button type="button" class="mobile-topbar-icon" data-mobile-menu-btn>
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-search-row" data-mobile-search-row style="display:none;">
+      <button type="button" class="mobile-topbar-icon" data-mobile-search-close>
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." data-global-search />
+        <div class="search-results" data-search-results></div>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-dropdown" data-mobile-topbar-dropdown style="display:none;"></div>
+  </header>
+
   <div class="app-shell">
 
     <!-- ===== Left Sidebar ===== -->
@@ -34,17 +71,29 @@
         <a href="explore.html" class="sidebar-link active">
           <span class="material-symbols-outlined icon-filled">explore</span><span>Explore</span>
         </a>
+        <a href="reels.html" class="sidebar-link">
+          <span class="material-symbols-outlined">smart_display</span><span>Reels</span>
+        </a>
         <a href="notifications.html" class="sidebar-link">
-          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="badge-count" data-notif-badge style="display:none;">0</span>
+          </span><span>Notifications</span>
         </a>
         <a href="messages.html" class="sidebar-link">
-          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge style="display:none;">0</span>
+          </span><span>Messages</span>
         </a>
         <a href="index.html#composer" class="sidebar-link">
           <span class="material-symbols-outlined">add_box</span><span>Create</span>
         </a>
         <a href="profile.html" class="sidebar-link">
           <span class="material-symbols-outlined">person</span><span>Profile</span>
+        </a>
+        <a href="saved.html" class="sidebar-link">
+          <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
         </a>
         <a href="settings.html" class="sidebar-link">
           <span class="material-symbols-outlined">settings</span><span>Settings</span>
@@ -65,7 +114,8 @@
       <div class="explore-top">
         <div class="search-box" style="max-width:none;">
           <span class="material-symbols-outlined">search</span>
-          <input type="text" placeholder="Search Zovari..." />
+          <input type="text" placeholder="Search Zovari..." data-global-search />
+          <div class="search-results" data-search-results></div>
         </div>
         <div class="explore-tabs">
           <button class="tab-chip active">For You</button>
@@ -198,11 +248,13 @@
   <nav class="mobile-nav">
     <a href="index.html"><span class="material-symbols-outlined">home</span></a>
     <a href="explore.html" class="active"><span class="material-symbols-outlined icon-filled">explore</span></a>
+    <a href="reels.html"><span class="material-symbols-outlined">smart_display</span></a>
     <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
-    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="notifications.html"><span class="sidebar-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="badge-count" data-notif-badge-mobile style="display:none;">0</span></span></a>
     <a href="profile.html"><span class="material-symbols-outlined">person</span></a>
   </nav>
 
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

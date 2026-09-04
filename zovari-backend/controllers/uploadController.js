@@ -1,18 +1,20 @@
 const cloudinary = require("../config/cloudinary");
 
-// @route  POST /api/upload (protected) - form-data field name: "image"
+// @route  POST /api/upload (protected) - form-data field name: "image" (image ya video, dono chalte hain)
 // Frontend pehle isay call karta hai, jo URL wapis milta hai wahi post/avatar me use hota hai
 const uploadImage = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: "No image file was sent" });
+      return res.status(400).json({ message: "No file was sent" });
     }
+
+    const isVideo = req.file.mimetype.startsWith("video/");
 
     // Buffer ko ek upload_stream ke zariye Cloudinary bhejte hain (disk pe save kiye bagair)
     const streamUpload = () =>
       new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { folder: "zovari", resource_type: "image" },
+          { folder: "zovari", resource_type: isVideo ? "video" : "image" },
           (error, result) => {
             if (result) resolve(result);
             else reject(error);
@@ -22,9 +24,9 @@ const uploadImage = async (req, res) => {
       });
 
     const result = await streamUpload();
-    res.status(201).json({ url: result.secure_url });
+    res.status(201).json({ url: result.secure_url, type: isVideo ? "video" : "image" });
   } catch (err) {
-    res.status(500).json({ message: "Image upload failed", error: err.message });
+    res.status(500).json({ message: "Upload failed", error: err.message });
   }
 };
 

@@ -1,16 +1,27 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const { initSocket } = require("./utils/socket");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const conversationRoutes = require("./routes/conversationRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const searchRoutes = require("./routes/searchRoutes");
+const storyRoutes = require("./routes/storyRoutes");
+const reelRoutes = require("./routes/reelRoutes");
 
 const app = express();
+
+// Express app ko ek plain http server me wrap karna zaroori hai taake
+// Socket.io usi port pe (same server) real-time connections handle kar sake
+const server = http.createServer(app);
+initSocket(server);
 
 // Middleware
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
@@ -20,9 +31,13 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/search", searchRoutes);
+app.use("/api/stories", storyRoutes);
+app.use("/api/reels", reelRoutes);
 
 // Health check
 app.get("/", (req, res) => {
@@ -51,7 +66,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Server http://localhost:${PORT} pe chal raha hai`);
+  server.listen(PORT, () => {
+    console.log(`✅ Server http://localhost:${PORT} pe chal raha hai (real-time ke liye Socket.io bhi active)`);
   });
 });

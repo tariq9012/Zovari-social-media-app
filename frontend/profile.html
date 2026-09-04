@@ -15,6 +15,43 @@
 </head>
 <body>
 
+  <!-- Mobile top bar (phone/tablet only) -->
+  <header class="mobile-topbar">
+    <div class="mobile-topbar-main" data-mobile-topbar-main>
+      <a href="index.html" class="mobile-topbar-brand">
+        <img src="zovari-logo.png" alt="Zovari" />
+        <span>Zovari</span>
+      </a>
+      <div class="mobile-topbar-actions">
+        <a href="messages.html" class="mobile-topbar-icon">
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge-mobile style="display:none;">0</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-topbar-icon" data-mobile-search-btn>
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button type="button" class="mobile-topbar-icon" data-mobile-menu-btn>
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-search-row" data-mobile-search-row style="display:none;">
+      <button type="button" class="mobile-topbar-icon" data-mobile-search-close>
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search Zovari..." data-global-search />
+        <div class="search-results" data-search-results></div>
+      </div>
+    </div>
+
+    <div class="mobile-topbar-dropdown" data-mobile-topbar-dropdown style="display:none;"></div>
+  </header>
+
   <div class="app-shell">
 
     <!-- ===== Left Sidebar ===== -->
@@ -34,17 +71,29 @@
         <a href="explore.html" class="sidebar-link">
           <span class="material-symbols-outlined">explore</span><span>Explore</span>
         </a>
+        <a href="reels.html" class="sidebar-link">
+          <span class="material-symbols-outlined">smart_display</span><span>Reels</span>
+        </a>
         <a href="notifications.html" class="sidebar-link">
-          <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="badge-count" data-notif-badge style="display:none;">0</span>
+          </span><span>Notifications</span>
         </a>
         <a href="messages.html" class="sidebar-link">
-          <span class="material-symbols-outlined">mail</span><span>Messages</span>
+          <span class="sidebar-icon-wrap">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="badge-count" data-msg-badge style="display:none;">0</span>
+          </span><span>Messages</span>
         </a>
         <a href="index.html#composer" class="sidebar-link">
           <span class="material-symbols-outlined">add_box</span><span>Create</span>
         </a>
         <a href="profile.html" class="sidebar-link active">
           <span class="material-symbols-outlined icon-filled">person</span><span>Profile</span>
+        </a>
+        <a href="saved.html" class="sidebar-link">
+          <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
         </a>
         <a href="settings.html" class="sidebar-link">
           <span class="material-symbols-outlined">settings</span><span>Settings</span>
@@ -62,24 +111,73 @@
     <!-- ===== Main ===== -->
     <main class="main-col">
 
-      <img class="profile-cover" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80" alt="Cover photo" />
+      <div class="profile-cover-wrap" data-profile-cover-wrap>
+        <img class="profile-cover" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80" alt="Cover photo" data-profile-cover-img />
+        <div class="profile-photo-menu-wrap">
+          <button type="button" class="profile-cover-edit-btn" data-profile-cover-edit-btn style="display:none;" title="Cover photo options">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </button>
+          <div class="profile-photo-dropdown" data-profile-cover-dropdown style="display:none;">
+            <div class="profile-photo-dropdown-item" data-profile-cover-view>
+              <span class="material-symbols-outlined">visibility</span><span>View Cover Photo</span>
+            </div>
+            <div class="profile-photo-dropdown-item" data-profile-cover-change>
+              <span class="material-symbols-outlined">photo_camera</span><span>Change Cover Photo</span>
+            </div>
+          </div>
+        </div>
+        <input type="file" accept="image/*" data-profile-cover-input hidden />
+      </div>
 
       <div class="profile-head">
-        <img class="profile-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Alex Mercer" />
+        <div class="profile-avatar-wrap" data-profile-avatar-wrap>
+          <img class="profile-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Alex Mercer" data-profile-avatar-img />
+          <div class="profile-photo-menu-wrap">
+            <button type="button" class="profile-avatar-edit-btn" data-profile-avatar-edit-btn style="display:none;" title="Profile photo options">
+              <span class="material-symbols-outlined">photo_camera</span>
+            </button>
+            <div class="profile-photo-dropdown" data-profile-avatar-dropdown style="display:none;">
+              <div class="profile-photo-dropdown-item" data-profile-avatar-view>
+                <span class="material-symbols-outlined">visibility</span><span>View Profile Picture</span>
+              </div>
+              <div class="profile-photo-dropdown-item" data-profile-avatar-change>
+                <span class="material-symbols-outlined">photo_camera</span><span>Change Profile Picture</span>
+              </div>
+            </div>
+          </div>
+          <input type="file" accept="image/*" data-profile-avatar-input hidden />
+        </div>
         <div class="profile-head-actions">
-          <button class="icon-btn"><span class="material-symbols-outlined">more_horiz</span></button>
-          <button class="icon-btn"><span class="material-symbols-outlined">mail</span></button>
+          <div class="profile-more-wrap">
+            <button class="icon-btn" data-profile-more-btn><span class="material-symbols-outlined">more_horiz</span></button>
+            <div class="profile-more-dropdown" data-profile-more-dropdown style="display:none;"></div>
+          </div>
+          <button class="icon-btn" data-profile-message-btn><span class="material-symbols-outlined">mail</span></button>
           <button class="btn btn-primary btn-follow">Follow</button>
         </div>
       </div>
 
+      <div class="profile-blocked-banner" data-profile-blocked-banner style="display:none;"></div>
+
       <div class="profile-info">
         <div class="profile-name-row">
           <h2>Alex Mercer</h2>
-          <span class="material-symbols-outlined verified-badge icon-filled">verified</span>
+          <span class="material-symbols-outlined verified-badge icon-filled" style="display:none;">verified</span>
         </div>
         <div class="profile-handle">@alexmercer_design</div>
-        <p class="profile-bio">Digital Product Designer creating high-end minimalist interfaces. Exploring the intersection of aesthetics and functionality in modern tech.</p>
+        <div class="profile-bio-row" data-profile-bio-row>
+          <p class="profile-bio">Digital Product Designer creating high-end minimalist interfaces. Exploring the intersection of aesthetics and functionality in modern tech.</p>
+          <button type="button" class="profile-bio-edit-btn" data-profile-bio-edit-btn style="display:none;" title="Edit bio">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+        </div>
+        <div class="profile-bio-edit-box" data-profile-bio-edit-box style="display:none;">
+          <textarea rows="3" maxlength="160" data-profile-bio-input></textarea>
+          <div class="profile-bio-edit-actions">
+            <button type="button" class="btn btn-secondary" data-profile-bio-cancel>Cancel</button>
+            <button type="button" class="btn btn-primary" data-profile-bio-save>Save</button>
+          </div>
+        </div>
 
         <div class="profile-meta">
           <span><span class="material-symbols-outlined">location_on</span> San Francisco, CA</span>
@@ -260,15 +358,58 @@
 
   </div>
 
+  <!-- Story Viewer (fullscreen) -->
+  <div class="story-viewer" data-story-viewer style="display:none;">
+    <div class="story-viewer-progress-row" data-story-progress-row></div>
+    <div class="story-viewer-header">
+      <img class="story-viewer-avatar" data-story-viewer-avatar alt="" />
+      <div class="story-viewer-meta">
+        <span class="story-viewer-name" data-story-viewer-name></span>
+        <span class="story-viewer-time" data-story-viewer-time></span>
+      </div>
+      <button type="button" class="story-viewer-delete" data-story-viewer-delete title="Delete story" style="display:none;">
+        <span class="material-symbols-outlined">delete</span>
+      </button>
+      <button type="button" class="story-viewer-close" data-story-viewer-close>
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="story-viewer-content" data-story-viewer-content></div>
+    <button type="button" class="story-viewer-nav story-viewer-prev" data-story-prev>
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    <button type="button" class="story-viewer-nav story-viewer-next" data-story-next>
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+    <div class="story-viewer-caption" data-story-viewer-caption></div>
+    <div class="story-viewer-views" data-story-viewer-views style="display:none;"></div>
+  </div>
+
+  <!-- Upload progress banner (Facebook jaisa "Your photo is uploading...") -->
+  <div class="upload-progress-banner" data-upload-progress-banner style="display:none;">
+    <span class="upload-spinner"></span>
+    <span data-upload-progress-text>Your photo is uploading...</span>
+  </div>
+
+  <!-- Photo viewer (View Profile Picture / View Cover Photo) -->
+  <div class="photo-viewer" data-photo-viewer style="display:none;">
+    <button type="button" class="photo-viewer-close" data-photo-viewer-close>
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <img data-photo-viewer-img src="" alt="Photo" />
+  </div>
+
   <!-- Mobile bottom nav -->
   <nav class="mobile-nav">
     <a href="index.html"><span class="material-symbols-outlined">home</span></a>
     <a href="explore.html"><span class="material-symbols-outlined">explore</span></a>
+    <a href="reels.html"><span class="material-symbols-outlined">smart_display</span></a>
     <a href="index.html#composer"><span class="material-symbols-outlined">add_box</span></a>
-    <a href="notifications.html"><span class="material-symbols-outlined">notifications</span></a>
+    <a href="notifications.html"><span class="sidebar-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="badge-count" data-notif-badge-mobile style="display:none;">0</span></span></a>
     <a href="profile.html" class="active"><span class="material-symbols-outlined icon-filled">person</span></a>
   </nav>
 
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
