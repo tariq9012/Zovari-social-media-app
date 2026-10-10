@@ -7,7 +7,7 @@
    ========================================================= */
 
 // Backend URL - agar server kisi doosri port/domain pe chal raha ho to yahan badal dein
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = (window.ZOVARI_CONFIG?.API_BASE || "http://localhost:5000/api").replace(/\/$/, "");
 
 /* ---------- Auth helpers (JWT token localStorage me store hota hai) ---------- */
 function getToken() {
@@ -199,6 +199,9 @@ function initSocketConnection() {
   const socketBase = API_BASE.replace(/\/api\/?$/, ""); // http://localhost:5000/api -> http://localhost:5000
 
   socket = io(socketBase, {
+    // Vercel Functions do not provide sticky sessions for Socket.IO polling.
+    // Use the WebSocket transport directly for Vercel deployments.
+    transports: ["websocket"],
     auth: { token: getToken() },
   });
 

@@ -1,6 +1,7 @@
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const connectDB = require("../config/db");
 const { isBlockedEitherWay } = require("./blockHelpers");
 
 let io = null;
@@ -11,13 +12,19 @@ const activeGroupCalls = new Map();
 
 // server.js se ek hi baar call hota hai jab HTTP server ban jata hai
 function initSocket(httpServer) {
+  const allowedOrigins = (process.env.CLIENT_URL || "http://127.0.0.1:5500,http://localhost:5500")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   io = new Server(httpServer, {
-    cors: { origin: process.env.CLIENT_URL || "*" },
+    cors: { origin: allowedOrigins, methods: ["GET", "POST"] },
   });
 
   // Har socket connection pe JWT verify karna - login wale token se hi connect ho sakta hai
   io.use(async (socket, next) => {
     try {
+      await connectDB();
       const token = socket.handshake.auth?.token;
       if (!token) return next(new Error("Not authorized"));
 
