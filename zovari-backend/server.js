@@ -23,9 +23,39 @@ const app = express();
 const server = http.createServer(app);
 initSocket(server);
 
-// Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+// Allow the configured frontend origin(s). Set CLIENT_URL to one or more
+// comma-separated exact origins in Vercel Project Settings.
+const allowedOrigins = (process.env.CLIENT_URL || "http://127.0.0.1:5500,http://localhost:5500")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Origin not allowed by CORS"));
+  },
+  credentials: true,
+}));
 app.use(express.json());
+
+// Health check (does not require a database round-trip).
+app.get("/", (req, res) => {
+  res.json({ message: "Zovari backend is running 🚀" });
+});
+
+// Ensure a MongoDB connection is ready before database-backed API routes run.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("MongoDB connection unavailable:", err.message);
+    res.status(503).json({ message: "Database unavailable. Check backend configuration." });
+  }
+});
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -38,11 +68,6 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/stories", storyRoutes);
 app.use("/api/reels", reelRoutes);
-
-// Health check
-app.get("/", (req, res) => {
-  res.json({ message: "Zovari backend is running \ud83d\ude80" });
-});
 
 // 404 handler
 app.use((req, res) => {
@@ -63,10 +88,18 @@ app.use((err, req, res, next) => {
   next();
 });
 
-const PORT = process.env.PORT || 5000;
-
-connectDB().then(() => {
-  server.listen(PORT, () => {
-    console.log(`✅ Server http://localhost:${PORT} pe chal raha hai (real-time ke liye Socket.io bhi active)`);
+// Vercel uses the exported HTTP server as a Function entry point. For local
+// development, continue running `npm start` as a regular long-lived server.
+if (require.main === module) {
+  connectDB().then(() => {
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, () => {
+      console.log(`Zovari backend listening on http://localhost:${PORT}`);
+    });
+  }).catch((err) => {
+    console.error("Unable to start Zovari backend:", err.message);
+    process.exitCode = 1;
   });
-});
+}
+
+module.exports = server;
